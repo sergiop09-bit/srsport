@@ -40,6 +40,11 @@ app.use(cors({ origin: FRONT_URL || '*' }), express.json())
 app.get('/api/partidos', async (_, res) => res.json(await Partido.find().sort({ createdAt: -1 })))
 app.post('/api/partidos', auth, async (req, res) => res.status(201).json(await Partido.create(req.body)))
 app.delete('/api/partidos/:id', auth, async (req, res) => { await Partido.findByIdAndDelete(req.params.id); res.json({ ok: true }) })
+app.put('/api/partidos/:id', auth, async (req, res) => {
+  const p = await Partido.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
+  if (!p) return res.status(404).json({ error: 'Partido no encontrado' })
+  res.json(p)
+})
 
 app.post('/api/mensajes', async (req, res) => {
   const { nombre, email, asunto, mensaje } = req.body
