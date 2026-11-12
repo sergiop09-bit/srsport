@@ -220,7 +220,14 @@ function Admin() {
     </main>
   )
 }
-
+function Footer() {
+  return (
+    <footer className="footer">
+      <p><strong>SRsport</strong> · Comunidad deportiva de fútbol, baloncesto y voleibol</p>
+      <p className="suave">Proyecto final · Jóvenes creaTivos · {new Date().getFullYear()}</p>
+    </footer>
+  )
+}
 export default function App() {
   return (
     <HashRouter>
@@ -232,6 +239,7 @@ export default function App() {
         <Route path="/contacto" element={<Contacto />} />
         <Route path="/admin" element={<Admin />} />
       </Routes>
+      <Footer />
     </HashRouter>
   )
 }

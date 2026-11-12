@@ -30,3 +30,6 @@ input:focus,select:focus,textarea:focus,.btn:focus-visible,a:focus-visible{outli
 .row{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
 pre{white-space:pre-wrap;font:inherit}
 @media(prefers-reduced-motion:no-preference){.card{transition:transform .15s}.card:hover{transform:translateY(-3px)}}
+.footer{background:var(--texto);color:#fff;text-align:center;padding:24px 5%}
+.footer p{margin:4px 0}
+.footer .suave{color:#cbd5e1}
