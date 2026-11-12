@@ -6,7 +6,7 @@ const DEPORTES = ['Fútbol', 'Baloncesto', 'Voleibol']
 const ICONO = { Fútbol: '⚽', Baloncesto: '🏀', Voleibol: '🏐' }
 
 // Pide una lista a la API (Express + MongoDB)
-function useColeccion(ruta) {
+function useColeccion(ruta, activo = true) {
   const [filas, setFilas] = useState([])
   const [cargando, setCargando] = useState(true)
   const cargar = () =>
@@ -14,7 +14,7 @@ function useColeccion(ruta) {
       .then(setFilas)
       .catch(() => setFilas([]))
       .finally(() => setCargando(false))
-  useEffect(() => { cargar() }, [])
+  useEffect(() => { if (activo) cargar() }, [activo])
   return [filas, cargar, cargando]
 }
 
@@ -205,7 +205,7 @@ function Admin() {
   const [cred, setCred] = useState({ email: '', pass: '' })
   const [error, setError] = useState('')
   const [partidos, recargarP] = useColeccion('partidos')
-  const [mensajes, recargarM] = useColeccion('mensajes')
+  const [mensajes, recargarM] = useColeccion('mensajes', user)
   const [p, setP] = useState({ titulo: '', deporte: 'Fútbol', lugar: '', fecha: '', cupos: 1 })
   const [editId, setEditId] = useState(null)
   const entrar = async e => {
