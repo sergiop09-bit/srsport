@@ -125,13 +125,13 @@ function Contacto() {
     <main>
       <h2>Contacto</h2>
       <form onSubmit={enviar}>
-        <label>Nombre<input name="nombre" value={f.nombre} onChange={cambiar} required /></label>
+        <label>Nombre<input name="nombre" value={f.nombre} onChange={cambiar} required maxLength="60" /></label>
         <label>Correo<input name="email" type="email" value={f.email} onChange={cambiar} required /></label>
         <label>Asunto
           <select name="asunto" value={f.asunto} onChange={cambiar}>
             <option>Unirme a un partido</option><option>Proponer una cancha</option><option>Otro</option>
           </select></label>
-        <label>Mensaje<textarea name="mensaje" rows="4" value={f.mensaje} onChange={cambiar} required /></label>
+        <label>Mensaje<textarea name="mensaje" rows="4" value={f.mensaje} onChange={cambiar} required minLength="10" maxLength="500" /></label>
         <button className="btn">Enviar mensaje</button>
         {estado === 'ok' && <p className="okmsg">Mensaje enviado. Te responderemos pronto.</p>}
         {estado === 'error' && <p className="err">No se pudo enviar. Revisa tu conexión e inténtalo de nuevo.</p>}

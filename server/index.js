@@ -17,10 +17,10 @@ const Partido = mongoose.model('Partido', new mongoose.Schema({
   cupos: { type: Number, min: 1, required: true },
 }, opts))
 const Mensaje = mongoose.model('Mensaje', new mongoose.Schema({
-  nombre: { type: String, required: true, trim: true },
+  nombre: { type: String, required: true, trim: true, maxlength: 60 },
   email: { type: String, required: true, trim: true },
   asunto: String,
-  mensaje: { type: String, required: true },
+  mensaje: { type: String, required: true, minlength: 10, maxlength: 500 },
 }, opts))
 const Admin = mongoose.model('Admin', new mongoose.Schema({
   email: { type: String, required: true, unique: true },
