@@ -54,6 +54,28 @@ function Inicio() {
           <div className="card" data-aos="fade-up" data-aos-delay="150"><h3>2. Únete</h3><p className="suave">Escríbenos y te reservamos un cupo en el partido.</p></div>
           <div className="card" data-aos="fade-up" data-aos-delay="300"><h3>3. Entrena</h3><p className="suave">Genera una rutina según tu deporte, nivel y objetivo.</p></div>
         </div>
+
+        <h2>Por qué SRsport</h2>
+        <div className="grid">
+          <div className="card" data-aos="fade-up">
+            <h3>Comunidad real</h3>
+            <p className="suave">Conoce personas de tu ciudad que comparten tu pasión por el deporte.</p>
+          </div>
+          <div className="card" data-aos="fade-up" data-aos-delay="150">
+            <h3>Equipos completos</h3>
+            <p className="suave">Evita partidos cancelados por falta de jugadores.</p>
+          </div>
+          <div className="card" data-aos="fade-up" data-aos-delay="300">
+            <h3>Entrena mejor</h3>
+            <p className="suave">Rutinas según tu deporte, tu nivel y tu objetivo.</p>
+          </div>
+        </div>
+
+        <div className="card" data-aos="zoom-in" style={{ marginTop: 32, textAlign: 'center' }}>
+          <h3>¿Listo para jugar?</h3>
+          <p className="suave">Escríbenos y te ayudamos a encontrar tu próximo partido.</p>
+          <Link to="/contacto" className="btn">Contáctanos</Link>
+        </div>
       </main>
     </>
   )
