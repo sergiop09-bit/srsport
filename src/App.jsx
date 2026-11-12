@@ -44,15 +44,15 @@ function Inicio() {
         <h2>Elige tu deporte</h2>
         <div className="grid">
           {DEPORTES.map(d => (
-            <div className="card" key={d}><div className="big">{ICONO[d]}</div><h3>{d}</h3>
+            <div className="card" key={d} data-aos="fade-up"><div className="big">{ICONO[d]}</div><h3>{d}</h3>
               <p className="suave">Partidos abiertos y jugadores buscando equipo.</p></div>
           ))}
         </div>
         <h2>Cómo funciona</h2>
         <div className="grid">
-          <div className="card"><h3>1. Busca</h3><p className="suave">Filtra los partidos por deporte y mira lugar, fecha y cupos.</p></div>
-          <div className="card"><h3>2. Únete</h3><p className="suave">Escríbenos y te reservamos un cupo en el partido.</p></div>
-          <div className="card"><h3>3. Entrena</h3><p className="suave">Genera una rutina según tu deporte, nivel y objetivo.</p></div>
+          <div className="card" data-aos="fade-up"><h3>1. Busca</h3><p className="suave">Filtra los partidos por deporte y mira lugar, fecha y cupos.</p></div>
+          <div className="card" data-aos="fade-up" data-aos-delay="150"><h3>2. Únete</h3><p className="suave">Escríbenos y te reservamos un cupo en el partido.</p></div>
+          <div className="card" data-aos="fade-up" data-aos-delay="300"><h3>3. Entrena</h3><p className="suave">Genera una rutina según tu deporte, nivel y objetivo.</p></div>
         </div>
       </main>
     </>
@@ -75,7 +75,7 @@ function Partidos() {
 {!cargando && lista.length === 0 && <p className="suave">Todavía no hay partidos de este deporte. Vuelve pronto o propón uno desde Contacto.</p>}
       <div className="grid">
         {lista.map(p => (
-          <div className="card" key={p.id}>
+          <div className="card" key={p.id} data-aos="zoom-in">
             <div className="big">{ICONO[p.deporte]}</div>
             <h3>{p.titulo}</h3>
             <p className="suave">{p.lugar} · {p.fecha}</p>
