@@ -94,7 +94,7 @@ function Partidos() {
         ))}
       </div>
       {cargando && <p className="suave">Cargando partidos... la primera vez puede tardar unos segundos.</p>}
-{!cargando && lista.length === 0 && <p className="suave">Todavía no hay partidos de este deporte. Vuelve pronto o propón uno desde Contacto.</p>}
+      {!cargando && lista.length === 0 && <p className="suave">Todavía no hay partidos de este deporte. Vuelve pronto o propón uno desde Contacto.</p>}
       <div className="grid">
         {lista.map(p => (
           <div className="card" key={p.id} data-aos="zoom-in">
@@ -165,7 +165,7 @@ function generarRutina({ deporte, nivel, objetivo, dias }) {
 function Rutinas() {
   const [f, setF] = useState({ deporte: 'Fútbol', nivel: 'Principiante', objetivo: 'Resistencia', dias: 3 })
   const [plan, setPlan] = useState('')
-    const [copiado, setCopiado] = useState(false)
+  const [copiado, setCopiado] = useState(false)
   const copiar = async () => {
     try {
       await navigator.clipboard.writeText(plan)
@@ -207,7 +207,7 @@ function Admin() {
   const [partidos, recargarP] = useColeccion('partidos')
   const [mensajes, recargarM] = useColeccion('mensajes')
   const [p, setP] = useState({ titulo: '', deporte: 'Fútbol', lugar: '', fecha: '', cupos: 1 })
-
+  const [editId, setEditId] = useState(null)
   const entrar = async e => {
     e.preventDefault(); setError('')
     try {
@@ -215,10 +215,18 @@ function Admin() {
       setToken(r.token); setUser(true); recargarP(); recargarM()
     } catch { setError('Correo o contraseña incorrectos.') }
   }
+  const vacio = { titulo: '', deporte: 'Fútbol', lugar: '', fecha: '', cupos: 1 }
   const crear = async e => {
     e.preventDefault()
-    await api('partidos', { method: 'POST', body: { ...p, cupos: +p.cupos } })
-    setP({ titulo: '', deporte: 'Fútbol', lugar: '', fecha: '', cupos: 1 }); recargarP()
+    const body = { ...p, cupos: +p.cupos }
+    if (editId) await api(`partidos/${editId}`, { method: 'PUT', body })
+    else await api('partidos', { method: 'POST', body })
+    setP(vacio); setEditId(null); recargarP()
+  }
+  const editar = x => {
+    setP({ titulo: x.titulo, deporte: x.deporte, lugar: x.lugar, fecha: x.fecha, cupos: x.cupos })
+    setEditId(x.id)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
   const borrar = async (col, id, recargar) => { await api(`${col}/${id}`, { method: 'DELETE' }); recargar() }
 
@@ -236,19 +244,21 @@ function Admin() {
   return (
     <main>
       <div className="row"><h2>Panel de gestión</h2><button className="btn sec sm" onClick={() => { setToken(''); setUser(false) }}>Cerrar sesión</button></div>
-      <h3>Nuevo partido</h3>
+      <h3>{editId ? 'Editar partido' : 'Nuevo partido'}</h3>
       <form onSubmit={crear}>
         <label>Título<input value={p.titulo} onChange={e => setP({ ...p, titulo: e.target.value })} required /></label>
         <label>Deporte<select value={p.deporte} onChange={e => setP({ ...p, deporte: e.target.value })}>{DEPORTES.map(d => <option key={d}>{d}</option>)}</select></label>
         <label>Lugar<input value={p.lugar} onChange={e => setP({ ...p, lugar: e.target.value })} required /></label>
         <label>Fecha y hora<input value={p.fecha} onChange={e => setP({ ...p, fecha: e.target.value })} placeholder="Sáb 15 nov, 4:00 pm" required /></label>
         <label>Jugadores que faltan<input type="number" min="1" value={p.cupos} onChange={e => setP({ ...p, cupos: e.target.value })} required /></label>
-        <button className="btn">Publicar partido</button>
+        <button className="btn">{editId ? 'Guardar cambios' : 'Publicar partido'}</button>
+        {editId && <button type="button" className="btn sec" onClick={() => { setP(vacio); setEditId(null) }}>Cancelar edición</button>}
       </form>
       <h3>Partidos publicados</h3>
       {partidos.map(x => (
         <div className="card row" key={x.id} style={{ marginBottom: 10 }}>
           <span>{ICONO[x.deporte]} {x.titulo} · {x.fecha}</span>
+          <button className="btn sec sm" onClick={() => editar(x)}>Editar</button>{' '}
           <button className="btn sm" onClick={() => borrar('partidos', x.id, recargarP)}>Eliminar</button>
         </div>
       ))}
