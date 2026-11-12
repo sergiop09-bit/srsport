@@ -33,3 +33,9 @@ pre{white-space:pre-wrap;font:inherit}
 .footer{background:var(--texto);color:#fff;text-align:center;padding:24px 5%}
 .footer p{margin:4px 0}
 .footer .suave{color:#cbd5e1}
+.menu-btn{display:none;background:none;border:0;color:#fff;font-size:1.8rem;cursor:pointer}
+@media(max-width:700px){
+  .menu-btn{display:block}
+  .nav nav{display:none;width:100%;flex-direction:column;gap:10px;padding:8px 0}
+  .nav nav.abierto{display:flex}
+}

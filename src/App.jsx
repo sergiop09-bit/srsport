@@ -19,11 +19,15 @@ function useColeccion(ruta) {
 }
 
 function Nav() {
+  const [abierto, setAbierto] = useState(false)
   const links = [['/', 'Inicio'], ['/partidos', 'Partidos'], ['/rutinas', 'Rutinas IA'], ['/contacto', 'Contacto'], ['/admin', 'Admin']]
   return (
     <header className="nav">
       <NavLink to="/" className="logo">SR<span>sport</span></NavLink>
-      <nav>{links.map(([to, t]) => <NavLink key={to} to={to}>{t}</NavLink>)}</nav>
+      <button className="menu-btn" aria-label="Abrir menú" aria-expanded={abierto} onClick={() => setAbierto(!abierto)}>☰</button>
+      <nav className={abierto ? 'abierto' : ''}>
+        {links.map(([to, t]) => <NavLink key={to} to={to} onClick={() => setAbierto(false)}>{t}</NavLink>)}
+      </nav>
     </header>
   )
 }
