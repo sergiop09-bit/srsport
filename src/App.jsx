@@ -165,6 +165,17 @@ function generarRutina({ deporte, nivel, objetivo, dias }) {
 function Rutinas() {
   const [f, setF] = useState({ deporte: 'Fútbol', nivel: 'Principiante', objetivo: 'Resistencia', dias: 3 })
   const [plan, setPlan] = useState('')
+    const [copiado, setCopiado] = useState(false)
+  const copiar = async () => {
+    try {
+      await navigator.clipboard.writeText(plan)
+      setCopiado(true)
+      setTimeout(() => setCopiado(false), 2000)
+    } catch {
+      alert('No se pudo copiar. Selecciona el texto y cópialo manualmente.')
+    }
+  }
+
   const cambiar = e => setF({ ...f, [e.target.name]: e.target.name === 'dias' ? +e.target.value : e.target.value })
   return (
     <main>
@@ -177,7 +188,14 @@ function Rutinas() {
         <label>Días por semana<select name="dias" value={f.dias} onChange={cambiar}>{[2, 3, 4, 5].map(n => <option key={n}>{n}</option>)}</select></label>
         <button className="btn">Crear mi rutina</button>
       </form>
-      {plan && <div className="card" style={{ marginTop: 24 }}><pre>{plan}</pre></div>}
+      {plan && (
+        <div className="card" style={{ marginTop: 24 }}>
+          <pre>{plan}</pre>
+          <button className="btn sec sm" onClick={copiar}>
+            {copiado ? '¡Copiada!' : 'Copiar rutina'}
+          </button>
+        </div>
+      )}
     </main>
   )
 }
