@@ -8,9 +8,14 @@ const ICONO = { Fútbol: '⚽', Baloncesto: '🏀', Voleibol: '🏐' }
 // Pide una lista a la API (Express + MongoDB)
 function useColeccion(ruta) {
   const [filas, setFilas] = useState([])
-  const cargar = () => api(ruta).then(setFilas).catch(() => setFilas([]))
+  const [cargando, setCargando] = useState(true)
+  const cargar = () =>
+    api(ruta)
+      .then(setFilas)
+      .catch(() => setFilas([]))
+      .finally(() => setCargando(false))
   useEffect(() => { cargar() }, [])
-  return [filas, cargar]
+  return [filas, cargar, cargando]
 }
 
 function Nav() {
@@ -51,7 +56,7 @@ function Inicio() {
 }
 
 function Partidos() {
-  const [partidos] = useColeccion('partidos')
+  const [partidos, , cargando] = useColeccion('partidos')
   const [filtro, setFiltro] = useState('Todos')
   const lista = filtro === 'Todos' ? partidos : partidos.filter(p => p.deporte === filtro)
   return (
@@ -62,7 +67,8 @@ function Partidos() {
           <button key={d} className={filtro === d ? 'on' : ''} onClick={() => setFiltro(d)}>{d}</button>
         ))}
       </div>
-      {lista.length === 0 && <p className="suave">Todavía no hay partidos de este deporte. Vuelve pronto o propón uno desde Contacto.</p>}
+      {cargando && <p className="suave">Cargando partidos... la primera vez puede tardar unos segundos.</p>}
+{!cargando && lista.length === 0 && <p className="suave">Todavía no hay partidos de este deporte. Vuelve pronto o propón uno desde Contacto.</p>}
       <div className="grid">
         {lista.map(p => (
           <div className="card" key={p.id}>
